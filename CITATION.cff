@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+type: software
+title: "FM Fairness Paradox: Foundation Model Priors Amplify Worst-Client Disparity Under Extreme Federated Heterogeneity"
+authors:
+  - family-names: Naseer
+    given-names: Kiran
+    orcid: https://orcid.org/0009-0005-5129-8155
+    affiliation: University of Gujrat, Pakistan
+  - family-names: Shoaib
+    given-names: Umar
+    affiliation: University of Gujrat, Pakistan
+year: 2026
+url: "https://github.com/KiranNaseer-AI/FM-Fairness-Paradox"
+preferred-citation:
+  type: conference-paper
+  title: "When More Parameters Hurt: Foundation Model Priors Amplify Worst-Client Disparity Under Extreme Federated Heterogeneity"
+  authors:
+    - family-names: Naseer
+      given-names: Kiran
+      orcid: https://orcid.org/0009-0005-5129-8155
+    - family-names: Shoaib
+      given-names: Umar
+  booktitle: "FL@FM Workshop, International Joint Conference on Artificial Intelligence (IJCAI)"
+  year: 2026
