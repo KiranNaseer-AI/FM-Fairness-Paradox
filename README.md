@@ -7,7 +7,7 @@
 
 **Kiran Naseer, Umar Shoaib**  
 University of Gujrat, Pakistan  
-*Submitted to FL@FM Workshop, IJCAI 2026*
+*FL@FM Workshop, IJCAI 2026*
 
 ---
 
@@ -198,13 +198,9 @@ If you find this work useful, please cite:
   booktitle = {FL@FM Workshop, International Joint Conference on 
                Artificial Intelligence (IJCAI)},
   year      = {2026},
-  note      = {arXiv:ARXIV_ID_HERE}
+  note      ={((https://arxiv.org/abs/2605.08992)}
 }
 ```
-
-*Update the arXiv ID once the preprint is posted.*
-
----
 
 ## Contact
 
