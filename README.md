@@ -1,13 +1,13 @@
 # When More Parameters Hurt: Foundation Model Priors Amplify Worst-Client Disparity Under Extreme Federated Heterogeneity
 
-[![Paper](https://img.shields.io/badge/Paper-FL@FM--IJCAI%202026-blue)](https://arxiv.org/abs/ARXIV_ID_HERE)
+[![Paper](https://img.shields.io/badge/arXiv-2605.08992-b31b1b)](https://arxiv.org/abs/2605.08992)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-orange)](https://pytorch.org/)
 
-**Kiran Naseer, Umar Shoaib**  
-University of Gujrat, Pakistan  
-*FL@FM Workshop, IJCAI 2026*
+**Kiran Naseer, Umar Shoaib**
+University of Gujrat, Pakistan
+*FL@FM Workshop, IJCAI-ECAI 2026, Bremen — Accepted*
 
 ---
 
@@ -32,21 +32,21 @@ University of Gujrat, Pakistan
 
 ## Abstract
 
-Federated learning (FL) is increasingly used to fine-tune foundation models (FMs) on distributed private data. The community largely assumes that large-scale pretraining serves as a *rising tide that lifts all boats* in federated settings. However, our experiments reveal that these powerful priors can hinder rather than help the most disadvantaged clients under extreme heterogeneity.
+Federated learning (FL) is increasingly used to fine-tune foundation models (FMs) on distributed private data. The community largely assumes that large-scale pretraining serves as a rising tide that lifts all boats in federated settings. Our experiments show these powerful priors can instead hinder the most disadvantaged clients under extreme heterogeneity.
 
-Through controlled experiments on federated text classification, we compare worst-client accuracy between TextCNN (2.7M parameters) and DistilBERT with Low-Rank Adaptation (LoRA, 66M parameters) across four Non-IID heterogeneity levels. Under extreme label skew (α=0.1), DistilBERT+LoRA produces a worst-client accuracy gap of 50.1% — 56% larger than TextCNN's 32.2% gap, despite having 25× more parameters and extensive pretraining. Under moderate heterogeneity (α ≥ 0.5), the pattern reverses: the FM nearly eliminates the gap.
+Comparing TextCNN (2.7M parameters) against DistilBERT with LoRA (66M parameters) across four Non-IID heterogeneity levels, we find that under extreme label skew (α=0.1), DistilBERT+LoRA produces a worst-client accuracy gap of 50.1% — 56% larger than TextCNN's 32.2% gap, despite 25× more parameters and extensive pretraining. Under moderate heterogeneity (α ≥ 0.5), the pattern reverses: the FM nearly eliminates the gap.
 
-We further show that an inverse-weighted LoRA aggregation method (FedAvgW) does not resolve the disparity, suggesting aggregation reweighting alone is insufficient. Our results highlight the need for mechanisms that explicitly protect minority clients before deploying foundation models in high-stakes federated contexts such as healthcare and education.
+We further show that inverse-weighted LoRA aggregation (FedAvgW) does not resolve the disparity, suggesting aggregation reweighting alone is insufficient. These results argue for reporting worst-client accuracy alongside average accuracy before deploying foundation models in high-stakes federated contexts such as healthcare and education.
 
 ---
 
 ## Key Contributions
 
-1. **First controlled empirical comparison** of worst-client robustness between a lightweight model and a foundation model with PEFT across multiple Non-IID levels in federated NLP.
-2. **Identification of the FM Fairness Paradox**: FMs worsen worst-client fairness under extreme heterogeneity (α < 0.5) while improving it under moderate heterogeneity (α ≥ 0.5).
-3. **FedAvgW investigation**: empirical evidence that aggregation-level fixes are insufficient — the disparity requires dedicated algorithmic solutions.
+1. First controlled empirical comparison of worst-client robustness between a lightweight model and a foundation model with PEFT, across multiple Non-IID levels in federated NLP.
+2. Identification of the **FM Fairness Paradox**: FMs worsen worst-client fairness under extreme heterogeneity (α < 0.5) while improving it under moderate heterogeneity (α ≥ 0.5).
+3. **FedAvgW investigation**: empirical evidence that aggregation-level fixes alone are insufficient.
 4. **Critical heterogeneity threshold**: α ≈ 0.5 identified as a practical decision boundary for FM vs. task-specific model selection in cross-silo FL deployments.
-5. **Recommendation**: worst-client accuracy should be reported alongside average accuracy in all federated NLP research involving foundation models.
+5. Recommendation that worst-client accuracy be reported alongside average accuracy in federated NLP research involving foundation models.
 
 ---
 
@@ -68,8 +68,6 @@ We further show that an inverse-weighted LoRA aggregation method (FedAvgW) does 
 - **Datasets:** AG News (primary), Sentiment140 (cross-dataset validation)
 
 ### FedAvgW: Inverse-Weighted LoRA Aggregation
-
-We investigate whether giving minority clients more aggregation weight resolves the disparity:
 
 $$w_k^{\text{LoRA}} = \frac{(1/n_k)^{\beta}}{\sum_j (1/n_j)^{\beta}}$$
 
@@ -115,31 +113,23 @@ The critical threshold at α ≈ 0.5 replicates across both datasets.
 
 ## Why FMs Fail Minority Clients: Global-Local Feature Interference
 
-We hypothesize that this interference mechanism operates as follows: DistilBERT's frozen backbone encodes a general semantic space shaped by pretraining. Under extreme heterogeneity, the majority clients' LoRA gradients push the adapters toward majority-class semantic boundaries in a way that is structurally inconsistent with the minority client's one-class data distribution. Each aggregation step overwrites the minority client's partial adaptation with the majority consensus.
+We hypothesize the mechanism as follows: DistilBERT's frozen backbone encodes a general semantic space shaped by pretraining. Under extreme heterogeneity, majority clients' LoRA gradients push the adapters toward majority-class semantic boundaries in a way that is structurally inconsistent with a minority client's one-class data distribution. Each aggregation step overwrites the minority client's partial adaptation with the majority consensus.
 
 This explains both:
-- The **larger gap**: FM adapters are more expressive — they fit the majority distribution more completely, making interference stronger
-- The **oscillation**: the minority client achieves partial adaptation during local training before being overwritten at aggregation
+- The **larger gap**: FM adapters are more expressive — they fit the majority distribution more completely, making interference stronger.
+- The **oscillation**: the minority client achieves partial adaptation during local training before being overwritten at aggregation.
 
 Geometric evidence (t-SNE of adapter representations) is planned for the journal extension targeting IEEE Access.
 
 ---
 
-## Repository Structure
+## Repository Contents
 
 ```
 FM-Fairness-Paradox/
-├── notebooks/
-│   └── FM_Fairness_Paradox_Experiments.ipynb   # Full experimental notebook
-├── figures/
-│   ├── fig1_fm_fairness_paradox.png             # Main result figure
-│   ├── fig2_critical_threshold.png              # Heterogeneity threshold
-│   ├── fig3_training_curves.png                 # Training dynamics at α=0.1
-│   ├── fig4_sentiment140_validation.png         # Cross-dataset validation
-│   └── fig5_fedavgw_comparison.png              # FedAvgW analysis
-├── results/
-│   └── results_summary.csv                      # All numerical results
-├── CITATION.cff                                 # Citation file
+├── FM_Fairness_Paradox_IJCAI2026.ipynb   # Full experimental notebook (Kaggle, GPU T4 x2)
+├── results/                              # Output artifacts (in progress)
+├── CITATION.cff
 ├── LICENSE
 └── README.md
 ```
@@ -148,26 +138,21 @@ FM-Fairness-Paradox/
 
 ## Reproducing Results
 
-All experiments were run on Kaggle (GPU T4 x2). The full notebook is available at:  
-**[kaggle.com/kiranmuhammad](https://www.kaggle.com/kiranmuhammad)**
+All experiments were run on Kaggle (GPU T4 x2). The full notebook is in this repo: [`FM_Fairness_Paradox_IJCAI2026.ipynb`](FM_Fairness_Paradox_IJCAI2026.ipynb).
 
-```python
-# Key dependencies
+```
 pip install torch transformers peft datasets
 
-# Datasets
-# AG News: available via HuggingFace datasets ('ag_news')
-# Sentiment140: available via HuggingFace datasets ('sentiment140')
+# Datasets loaded via HuggingFace datasets:
+# AG News ('ag_news'), Sentiment140 ('sentiment140')
 ```
-
-Detailed reproduction instructions are in the notebook.
 
 ---
 
 ## Practical Guidance for Practitioners
 
 > **Before deploying a foundation model in a federated setting, measure your data heterogeneity.**
-> 
+>
 > - If your real-world Dirichlet α is **below 0.5** (common in cross-silo settings with highly specialised institutions such as hospitals), a task-specific model may provide **fairer outcomes** for minority clients.
 > - If α is **above 0.5**, the FM's language priors become genuinely protective and it is the fairer choice.
 
@@ -175,26 +160,24 @@ Detailed reproduction instructions are in the notebook.
 
 ## Citation
 
-If you find this work useful, please cite:
-
 ```bibtex
 @inproceedings{naseer2026fmfairness,
-  title     = {When More Parameters Hurt: Foundation Model Priors Amplify 
+  title     = {When More Parameters Hurt: Foundation Model Priors Amplify
                Worst-Client Disparity Under Extreme Federated Heterogeneity},
   author    = {Naseer, Kiran and Shoaib, Umar},
-  booktitle = {FL@FM Workshop, International Joint Conference on 
-               Artificial Intelligence (IJCAI)},
+  booktitle = {FL@FM Workshop, International Joint Conference on
+               Artificial Intelligence (IJCAI-ECAI)},
   year      = {2026},
-  note      ={((https://arxiv.org/abs/2605.08992)}
+  note      = {arXiv:2605.08992}
 }
 ```
 
 ## Contact
 
-**Kiran Naseer**  
-PhD Candidate, University of Gujrat, Pakistan  
-kirannaseer8@gmail.com  
-[LinkedIn](https://linkedin.com/in/kiran-naseer) | [Google Scholar](https://scholar.google.com/citations?user=Ek9e3qwAAAAJ) | [ORCID](https://orcid.org/0009-0005-5129-8155)
+**Kiran Naseer**
+PhD Candidate, University of Gujrat, Pakistan
+kirannaseer8@gmail.com
+[LinkedIn](https://www.linkedin.com/in/kiran-naseer) | [Google Scholar](https://scholar.google.com/citations?user=Ek9e3qwAAAAJ) | [ORCID](https://orcid.org/0009-0005-5129-8155)
 
 ---
 
