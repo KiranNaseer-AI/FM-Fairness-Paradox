@@ -173,19 +173,6 @@ Detailed reproduction instructions are in the notebook.
 
 ---
 
-## Part of the FORGE Framework
-
-This work is **FORGE-EVAL**, one component of the FORGE research framework:
-
-| Component | Paper | Focus |
-|:---|:---|:---|
-| FORGE-DIAG | ECCV 2026 (under review) | VLM instability diagnosis |
-| FORGE-BENCH | MIUA 2026 (under review) | FL stress-testing benchmark |
-| FORGE-EVAL | **This work** | Worst-client evaluation |
-| FORGE-ADAPT | In development | Adaptive stabilisation |
-
----
-
 ## Citation
 
 If you find this work useful, please cite:
